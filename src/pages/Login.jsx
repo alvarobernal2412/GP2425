@@ -43,13 +43,12 @@ function LoginCard() {
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'a',
-      password: 'a',
+      email: '',
+      password: '',
     },
   });
 
   function onSubmit() {
-    console.log('submit');
     navigate('/app');
   }
 

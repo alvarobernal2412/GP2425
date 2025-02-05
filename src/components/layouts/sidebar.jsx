@@ -30,7 +30,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuth } from '@/hooks/use-auth';
+import userData from '@/utils/userData';
 
 // Menu items.
 const data = [
@@ -141,7 +141,6 @@ export function AppSidebar() {
     open,
     isMobile,
   } = useSidebar();
-  const { userData } = useAuth();
 
   return (
     <Sidebar
@@ -285,7 +284,6 @@ function FooterItem({ item, ...props }) {
 }
 
 function FooterButton() {
-  const { userData } = useAuth();
   return (
     <div className="grid flex-1 text-left text-sm leading-tight">
       <span className="truncate font-semibold">

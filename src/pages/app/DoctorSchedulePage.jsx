@@ -4,11 +4,11 @@ import { Calendar } from '@/components/calendar';
 import { ScheduleModal } from '@/components/schedule-modal';
 import { startOfWeek } from 'date-fns';
 import { DatePickerWithPresets } from '@/components/ui/date-picker-with-presets';
-import { useAuth } from '@/hooks/use-auth';
 import { workshiftsByDoctor, deleteWorkshift } from '@/services/workshift';
 import { transformDatesToSchedule, transformDatesToAppointment } from '@/utils/utils';
 import { getAppointmentsByDoctorId } from '@/services/appointment';
 import { useNavigate } from 'react-router-dom';
+import userData from '@/utils/userData';
 
 export function DoctorSchedulePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +20,6 @@ export function DoctorSchedulePage() {
   const [currentWeek, setCurrentWeek] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
   const [selectedSchedule, setSelectedSchedule] = useState(null);
 
-  const { userData } = useAuth();
   const navigation = useNavigate();
 
   const openModal = () => setIsModalOpen(true);
@@ -65,22 +64,22 @@ export function DoctorSchedulePage() {
     openModal();
   };
 
-  const fetchWorkshifts = async () => {
-    const workshiftsList = await workshiftsByDoctor(userData.doctorid);
-    const schedules = workshiftsList.map(({_id, startDate, endDate }) => transformDatesToSchedule(_id, startDate, endDate));
-    setSchedules(schedules);
-  };
+  // const fetchWorkshifts = async () => {
+  //   const workshiftsList = await workshiftsByDoctor(userData.doctorid);
+  //   const schedules = workshiftsList.map(({_id, startDate, endDate }) => transformDatesToSchedule(_id, startDate, endDate));
+  //   setSchedules(schedules);
+  // };
 
-  const fetchAppointments = async () => {
-    const appointmentsList = await getAppointmentsByDoctorId(userData.doctorid).then((res) => res.data);
-    const appointments = appointmentsList.map(({ _id, patientId, appointmentDate, appointmentEndDate }) => transformDatesToAppointment(_id, patientId, appointmentDate, appointmentEndDate));
-    setAppointments(appointments);
-  };
+  // const fetchAppointments = async () => {
+  //   const appointmentsList = await getAppointmentsByDoctorId(userData.doctorid).then((res) => res.data);
+  //   const appointments = appointmentsList.map(({ _id, patientId, appointmentDate, appointmentEndDate }) => transformDatesToAppointment(_id, patientId, appointmentDate, appointmentEndDate));
+  //   setAppointments(appointments);
+  // };
 
-  useEffect(() => {
-    fetchWorkshifts();
-    fetchAppointments();
-  }, [userData.doctorid]);
+  // useEffect(() => {
+  //   fetchWorkshifts();
+  //   fetchAppointments();
+  // }, [userData.doctorid]);
 
   const handleSaveSchedule = (newSchedule) => {
     setSchedules(prevSchedules => {
