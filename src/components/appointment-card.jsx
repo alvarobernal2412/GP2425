@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getPatientById } from '@/services/patient';
+import patientData from '@/utils/patientData';
 
 export function AppointmentCard({ date, patientId, startTime, endTime, color = 'rgba(180, 122, 234, 0.44)', onClick }) {
   const [patientName, setPatientName] = useState('');
@@ -12,9 +12,8 @@ export function AppointmentCard({ date, patientId, startTime, endTime, color = '
   useEffect(() => {
     const fetchPatientName = async (patientId) => {
       try {
-        const response = await getPatientById(patientId);
-        const patientData = response.data;
-        setPatientName(`${patientData.name} ${patientData.surname}`);
+        const patientInfo = patientData.find((patient) => patient._id === patientId);
+        setPatientName(`${patientInfo.name} ${patientInfo.surname}`);
       } catch (err) {
         console.error(err);
       }

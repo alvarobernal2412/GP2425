@@ -5,13 +5,15 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { User, MapPin, Calendar, Clock, Hospital, Cake } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
-import { useAuth } from '@/hooks/use-auth';
 import { getAppointmentById, completeAppointment, cancelAppointment, noShowAppointment, getAppointmentWeather } from '@/services/appointment';
-import { getDoctorData } from '@/services/staff';
-import { getClinicData } from '@/services/payments';
-import { getPatientById } from '@/services/patient';
 import { useNavigate } from 'react-router-dom';
 import { WeatherDisplay } from '@/components/weather';
+import doctorData from '@/utils/doctorData';
+import clinicData from '@/utils/clinicData';
+import patientData from '@/utils/patientData';
+import appointmentData from '@/utils/appointmentData';
+import userData from '@/utils/userData';
+import weatherData from '@/utils/weatherData';
 
 export function AppointmentDetails() {
   const [appointment, setAppointment] = useState(null);
@@ -22,7 +24,6 @@ export function AppointmentDetails() {
   const [loading, setLoading] = useState(true);
   const [allowed, setAllowed] = useState(null);
   const [error, setError] = useState(null);
-  const { userData } = useAuth();
   const navigate = useNavigate();
   const appointmentId = window.location.pathname.split('/').pop();
 
@@ -32,23 +33,24 @@ export function AppointmentDetails() {
 
   const fetchAppointment = async (appointmentId) => {
     try {
-      const appointmentData = await getAppointmentById(appointmentId);
+      // const appointmentData = await getAppointmentById(appointmentId);
+      const appointment = appointmentData.find((appointment) => appointment.appointmentId === appointmentId);
       await Promise.all([
-        fetchDoctorData(appointmentData.doctorId),
-        fetchClinicData(appointmentData.clinicId),
-        fetchPatientData(appointmentData.patientId),
+        fetchDoctorData(appointment.doctorId),
+        fetchClinicData(appointment.clinicId),
+        fetchPatientData(appointment.patientId),
         fetchWeather(appointmentId),
       ]);
       if (userData.roles.includes('clinicadmin')) {
-        setAllowed(appointmentData.clinicId === userData.clinicId);
+        setAllowed(appointment.clinicId === userData.clinicId);
       } else if (userData.roles.includes('doctor')) {
-        setAllowed(appointmentData.doctorId === userData.doctorid);
+        setAllowed(appointment.doctorId === userData.doctorid);
       } else if (userData.roles.includes('patient')) {
-        setAllowed(appointmentData.patientId === userData.patientid);
+        setAllowed(appointment.patientId === userData.patientid);
       } else {
         setAllowed(false);
       }
-      setAppointment(appointmentData);
+      setAppointment(appointment);
     } catch (err) {
       setError(err);
     } finally {
@@ -58,8 +60,8 @@ export function AppointmentDetails() {
 
   const fetchDoctorData = async (doctorId) => {
     try {
-      const doctorData = await getDoctorData(doctorId);
-      setDoctor(doctorData);
+      const doctor = doctorData;
+      setDoctor(doctor);
     } catch (err) {
       setError(err);
     }
@@ -67,8 +69,8 @@ export function AppointmentDetails() {
 
   const fetchClinicData = async (clinicId) => {
     try {
-      const clinicData = await getClinicData(clinicId);
-      setClinic(clinicData);
+      const clinic = clinicData;
+      setClinic(clinic);
     } catch (err) {
       setError(err);
     }
@@ -76,8 +78,8 @@ export function AppointmentDetails() {
 
   const fetchPatientData = async (patientId) => {
     try {
-      const patientData = await getPatientById(patientId).then(response => response.data);
-      setPatient(patientData);
+      const patient = patientData.find((patient) => patient._id === patientId);
+      setPatient(patient);
     } catch (err) {
       setError(err);
     }
@@ -85,7 +87,6 @@ export function AppointmentDetails() {
 
   const fetchWeather = async (appointmentId) => {
     try {
-      const weatherData = await getAppointmentWeather(appointmentId);
       setWeather(weatherData);
     } catch (err){
       console.error(err);

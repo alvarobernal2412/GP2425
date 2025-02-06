@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/calendar';
 import { ScheduleModal } from '@/components/schedule-modal';
 import { startOfWeek } from 'date-fns';
 import { DatePickerWithPresets } from '@/components/ui/date-picker-with-presets';
-import { workshiftsByDoctor, deleteWorkshift } from '@/services/workshift';
-import { transformDatesToSchedule, transformDatesToAppointment } from '@/utils/utils';
-import { getAppointmentsByDoctorId } from '@/services/appointment';
 import { useNavigate } from 'react-router-dom';
 import userData from '@/utils/userData';
+import { transformDatesToAppointment } from '@/utils/utils';
+import appointmentData from '@/utils/appointmentData';
+
 
 export function DoctorSchedulePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedHour, setSelectedHour] = useState(null);
   const [schedules, setSchedules] = useState([]);
-  const [appointments, setAppointments] = useState([]);
 
   const [currentWeek, setCurrentWeek] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
   const [selectedSchedule, setSelectedSchedule] = useState(null);
 
+  const appointments = appointmentData.map(({ appointmentId, patientId, appointmentDate, appointmentEndDate }) => transformDatesToAppointment(appointmentId, patientId, appointmentDate, appointmentEndDate));
   const navigation = useNavigate();
 
   const openModal = () => setIsModalOpen(true);
@@ -51,10 +51,10 @@ export function DoctorSchedulePage() {
   };
 
   const handleDeleteSchedule = () => {
-    deleteWorkshift(selectedSchedule.id).then(() => {
-      setSchedules(prevSchedules => prevSchedules.filter(s => s.id !== selectedSchedule.id));
-      closeModal();
-    });
+    // deleteWorkshift(selectedSchedule.id).then(() => {
+    //   setSchedules(prevSchedules => prevSchedules.filter(s => s.id !== selectedSchedule.id));
+    //   closeModal();
+    // });
   };
 
   const addNewWorkshift = () => {
@@ -93,7 +93,7 @@ export function DoctorSchedulePage() {
         return [...prevSchedules, newSchedule];
       }
     });
-    fetchWorkshifts();
+    // fetchWorkshifts();
     closeModal();
   };
 
