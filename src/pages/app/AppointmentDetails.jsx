@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { User, MapPin, Calendar, Clock, Hospital, Cake } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
-import { getAppointmentById, completeAppointment, cancelAppointment, noShowAppointment, getAppointmentWeather } from '@/services/appointment';
+import { completeAppointment, cancelAppointment, noShowAppointment } from '@/services/appointment';
 import { useNavigate } from 'react-router-dom';
 import { WeatherDisplay } from '@/components/weather';
 import doctorData from '@/utils/doctorData';

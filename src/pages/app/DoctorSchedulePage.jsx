@@ -5,7 +5,6 @@ import { ScheduleModal } from '@/components/schedule-modal';
 import { startOfWeek } from 'date-fns';
 import { DatePickerWithPresets } from '@/components/ui/date-picker-with-presets';
 import { useNavigate } from 'react-router-dom';
-import userData from '@/utils/userData';
 import { transformDatesToAppointment } from '@/utils/utils';
 import appointmentData from '@/utils/appointmentData';
 
