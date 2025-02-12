@@ -3,6 +3,8 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { AppSidebar } from '@/components/layouts/sidebar';
+import { Toaster } from '@/components/ui/toaster';
+import './globals.css';
 
 export default function AppLayout() {
   const isMobile = useIsMobile();
@@ -10,6 +12,7 @@ export default function AppLayout() {
   return (
     <SidebarProvider className="min-h-screen">
       <AppSidebar />
+      <Toaster />
       <div className="flex py-2 flex-col w-full">
         <TooltipProvider>
           <Tooltip>

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .toast-left-align {
+    @apply items-start text-left;
+  }
+
+  .toast-left-align .toast-title {
+    @apply text-left;
+  }
+}
+

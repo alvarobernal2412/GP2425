@@ -14,6 +14,7 @@ import patientData from '@/utils/patientData';
 import appointmentData from '@/utils/appointmentData';
 import userData from '@/utils/userData';
 import weatherData from '@/utils/weatherData';
+import { ShieldBan, Check, Ban } from 'lucide-react';
 
 export function AppointmentDetails() {
   const [appointment, setAppointment] = useState(null);
@@ -211,9 +212,18 @@ export function AppointmentDetails() {
 
       {userData.roles.includes('doctor') && (
         <div className="flex justify-end space-x-4">
-          <Button onClick={() => handleAction('complete')}>Complete</Button>
-          <Button variant="outline" onClick={() => handleAction('cancel')}>Cancel</Button>
-          <Button variant="destructive" onClick={() => handleAction('no-show')}>No Show</Button>
+          <Button onClick={() => handleAction('complete')}>
+            <Check className="mr-2 h-5 w-5" />
+            Complete
+          </Button>
+          <Button variant="outline" onClick={() => handleAction('cancel')}>
+            <Ban className="mr-2 h-5 w-5" />
+            Cancel
+          </Button>
+          <Button variant="destructive" onClick={() => handleAction('no-show')}>
+            <ShieldBan className="mr-2 h-5 w-5" />
+            Set `Not Attended`
+          </Button>
         </div>
       )}
     </div>

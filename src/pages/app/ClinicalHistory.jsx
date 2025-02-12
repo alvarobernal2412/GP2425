@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { FileIcon, ImageIcon,  Dna } from 'lucide-react';
+import { FileIcon, ImageIcon,  Dna, DownloadIcon, CircleCheckBig } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useParams } from 'react-router-dom';
 import { CardDiv, CardActions, AddIcon, EditConditionIcon, RemoveConditionIcon,
@@ -451,6 +451,7 @@ export function ClinicalHistory() {
   const [analytics, setAnalytics] = useState([]);
   const [images, setImages] = useState([]);
   const [allergies, setAllergies] = useState([]);
+  const [existFastQ, setExistFastQ] = useState(false);
 
   const navigate = useNavigate();
 
@@ -497,15 +498,41 @@ export function ClinicalHistory() {
     setError('');
   };
   
+  const openFileManager = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.onchange = (event) => {
+      const file = event.target.files[0];
+      setExistFastQ(true);
+      if (file) {
+        setExistFastQ(true);
+        console.log('File selected:', file);
+      }
+    };
+    fileInput.click();
+  };
   return (
     <div className="container mx-auto py-8 px-4 text-left">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Patient Clinical History</h1>
         {hasRole(['clinicadmin', 'doctor', 'patient']) && (
-          <Button variant="outline" className="px-4 py-2 text-base" onClick={handleNavigate}>
-            < Dna className="mr-2 h-5 w-5 " />
-            Genetic Study
-          </Button>
+          <div className='flex space-x-4'>
+            {existFastQ ? (
+              <Button variant="outline" className="px-4 py-2 text-base bg-green-500 text-white cursor-default hover:bg-green-500 hover:text-white">
+                <CircleCheckBig className="mr-2 h-5 w-5" />
+                FastQ Stored
+              </Button>
+            ) : (
+              <Button variant="outline" className="px-4 py-2 text-base" onClick={openFileManager}>
+                <DownloadIcon className="mr-2 h-5 w-5" />
+                Upload
+              </Button>
+            )}
+            <Button variant="outline" className="px-4 py-2 text-base" onClick={handleNavigate} disabled={!existFastQ}>
+              <Dna className="mr-2 h-5 w-5" />
+              Genetic Study
+            </Button>
+          </div>
         )}
       </div>
       <div className="space-y-6">

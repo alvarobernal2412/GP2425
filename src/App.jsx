@@ -25,6 +25,7 @@ import { ClinicaCompletada } from '@/pages/app/SuccessPage';
 import { BookingSystem } from '@/pages/app/BookAppointment';
 import { RegisterPatient } from '@/pages/app/RegisterPatient';
 import { PacienteRegistrado } from '@/pages/app/SuccessPagePatient';
+import { GeneticStudy } from '@/pages/app/GeneticStudy';
 import userData from '@/utils/userData';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
             <Route path="patients/register-patient" element={<RegisterPatient />} />
             <Route path="patients/success" element={<PacienteRegistrado />} />
             <Route path="plans" element={<Plans />} />
+            <Route path="genetic-study" element={<GeneticStudy />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />

@@ -74,8 +74,8 @@ export function Landing() {
   return (
     <div className="flex flex-col items-center mb-16">
       <div className="flex justify-around mt-16">
-        <a href="https://github.com/FIS2425" target="_blank">
-          <img src={logo} className="logohome size-auto" alt="CloudMedix logo" />
+        <a href="" target="_blank">
+          <img src={logo} className="logohome size-l" alt="CloudMedix logo" />
         </a>
       </div>
       <div className="card flex flex-col justify-center items-center gap-y-3">
@@ -154,7 +154,7 @@ export function Landing() {
               )}
             </CardContent>
             <CardFooter className="flex justify-center items-center mt-auto">
-              <a href="https://github.com/orgs/FIS2425/people" target="_blank">
+              <a href="" target="_blank">
                 <Button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
                   Contact Us
                 </Button>
