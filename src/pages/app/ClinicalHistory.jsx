@@ -3,9 +3,8 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { FileIcon, ImageIcon, DownloadIcon } from 'lucide-react';
+import { FileIcon, ImageIcon,  Dna } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getHistoryByPatientId } from '@/services/history';
 import { useParams } from 'react-router-dom';
 import { CardDiv, CardActions, AddIcon, EditConditionIcon, RemoveConditionIcon,
   EditIcon, RemoveIcon, UploadIcon, RemoveAllergyIcon, hasRole } from '@/components/history';
@@ -14,9 +13,17 @@ import { ConditionForm, TreatmentForm, FileForm, AllergyForm } from '@/forms/his
 import { useConditionForm, handleConditionSubmit, handleDeleteCondition, 
   handleEditCondition, useTreatmentForm, handleTreatmentSubmit, handleEditTreatment, handleDeleteTreatment,
   handleUploadAnalytic, handleDeleteAnalytic, handleAddAllergy, handleDeleteAllergy, handleUploadImage,
-  handleDeleteImage, handleGetReport
+  handleDeleteImage
 } from '@/utils/historyUtils';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+
+import treatmentData from '@/utils/treatmentData';
+import imageData from '@/utils/imageData';
+import conditionData from '@/utils/conditionData';
+import analyticsData from '@/utils/analyticsData';
+import allergiesData from '@/utils/allergiesData';
+import historyData from '@/utils/historyData';
 
 function Conditions({ conditions, historyId, updateHistoryPart }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -445,6 +452,8 @@ export function ClinicalHistory() {
   const [images, setImages] = useState([]);
   const [allergies, setAllergies] = useState([]);
 
+  const navigate = useNavigate();
+
   const updateHistoryPart = (part, data) => {
     switch (part) {
     case 'conditions':
@@ -469,39 +478,33 @@ export function ClinicalHistory() {
 
   useEffect(() => {
     const fetchHistory = async () => {
-      setIsLoading(true);
-      getHistoryByPatientId(id)
-        .then((response) => {
-          const data = response.data;
-          setHistoryId(data._id);
-          setConditions(data.currentConditions);
-          setTreatments(data.treatments);
-          setAnalytics(data.analytics);
-          setImages(data.images);
-          setAllergies(data.allergies);
-        })
-        .catch((err) => {
-          setError('An error occurred. Please try again later.');
-          console.error(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      setHistoryId(historyData._id);
+      setConditions(conditionData);
+      setTreatments(treatmentData);
+      setAnalytics(analyticsData);
+      setImages(imageData);
+      setAllergies(allergiesData);
     };
     fetchHistory();
   }, [id]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
+  const handleNavigate = () => {
+    navigate('/app/genetic-study');
+    setIsLoading(false);
+    setError('');
+  };
   
   return (
     <div className="container mx-auto py-8 px-4 text-left">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Patient Clinical History</h1>
         {hasRole(['clinicadmin', 'doctor', 'patient']) && (
-          <Button variant="outline" className="px-4 py-2 text-base" onClick={() => handleGetReport(historyId, setIsLoading, setError)}>
-            <DownloadIcon className="mr-2 h-5 w-5" />
-            Report
+          <Button variant="outline" className="px-4 py-2 text-base" onClick={handleNavigate}>
+            < Dna className="mr-2 h-5 w-5 " />
+            Genetic Study
           </Button>
         )}
       </div>
