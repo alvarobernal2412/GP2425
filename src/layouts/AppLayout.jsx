@@ -4,6 +4,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { AppSidebar } from '@/components/layouts/sidebar';
 import { Toaster } from '@/components/ui/toaster';
+import { AIAssistant } from '@/pages/ai-assistant';
 import './globals.css';
 
 export default function AppLayout() {
@@ -26,6 +27,7 @@ export default function AppLayout() {
         </TooltipProvider>
         <main className="flex-grow flex items-center justify-center">
           <Outlet />
+          <AIAssistant />
         </main>
       </div>
     </SidebarProvider>
