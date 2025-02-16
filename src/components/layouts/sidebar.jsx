@@ -1,4 +1,4 @@
-import { Calendar, Home, Search, ChevronRight, ChevronsUpDown, LogOut, CalendarCheck, UserPen, ClipboardPlus, Stethoscope } from 'lucide-react';
+import { Calendar, Home, Search, ChevronRight, ChevronsUpDown, LogOut, CalendarCheck, UserPen, ClipboardPlus, Stethoscope, Users } from 'lucide-react';
 import { Link } from 'react-router';
 import { MoreHorizontal } from 'lucide-react';
 import {
@@ -78,6 +78,12 @@ const data = [
         url: '/app/calendar',
         icon: Calendar,
         roles: ['doctor'],
+      },
+      {
+        title: 'Patients',
+        url: '/app/patients',
+        icon: Users,
+        roles: ['doctor','admin','clinicadmin'],
       },
       {
         title: 'Search',

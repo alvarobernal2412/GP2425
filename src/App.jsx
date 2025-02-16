@@ -20,6 +20,7 @@ import AppLayout from '@/layouts/AppLayout';
 import { RegisterStaff } from '@/pages/app/RegisterStaff';
 import { SearchStaff } from '@/pages/app/SearchStaff';
 import { ClinicCreation } from '@/pages/app/ClinicCreation';
+import { PatientTable } from '@/pages/app/PatientList';
 import { ClinicaEdicion } from '@/pages/app/EditClinic';
 import { ClinicaCompletada } from '@/pages/app/SuccessPage';
 import { BookingSystem } from '@/pages/app/BookAppointment';
@@ -57,6 +58,7 @@ function App() {
             <Route path="patients/success" element={<PacienteRegistrado />} />
             <Route path="plans" element={<Plans />} />
             <Route path="genetic-study" element={<GeneticStudy />} />
+            <Route path="patients" element={<PatientTable />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
